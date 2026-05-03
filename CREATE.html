@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Master - Create Task</title>
+    <link rel="icon" type="image/png" href="taskmaster_logo.png">
+    <link rel="stylesheet" href="Task.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="logo">Task Master</div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="Home.html">Dashboard</a></li>
+            <li><a href="view.html">View All Tasks</a></li>
+        </ul>
+    </nav>
+
+    <div class="outer-container">
+        <div class="outer-card" style="max-width: 500px;">
+            <h1>Create New Task</h1>
+            <p style="color: #666; margin-bottom: 25px;">Enter the details of your next big goal.</p>
+
+            <form id="createTaskForm">
+                
+                <div class="input-group">
+                    <label for="task-name">Task Name</label>
+                    <input type="text" id="task-name" placeholder= "Enter Task"required>
+                </div>
+
+                <div class="input-group">
+                    <label for="task-type">Task Type</label>
+                    <select id="task-type" name="task-type" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; background-color: white;">
+                        <option value="" disabled selected>Select Task Type</option>
+                        <option value="Work">Work</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Study">Study</option>
+                        <option value="Health">Health/Gym</option>
+                        <option value="Finance">Finance</option>
+                        <option value="other">+ Add Custom...</option>
+                    </select>
+                    <input type="text" id="custom-category" placeholder="Type your custom category (e.g. Project)" style="display: none; margin-top: 8px; width: 100%; padding: 12px; border: 1px solid #4a90e2; border-radius: 6px; background-color: white; box-sizing: border-box;">
+                </div>
+
+                <div class="input-group">
+                    <label for="due-date">Due Date</label>
+                    <input type="date" id="due-date" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="due-time">Due Time <span style="font-weight: 400; color: #999; font-size: 12px;">(optional — enables Google Calendar reminders)</span></label>
+                    <input type="time" id="due-time" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; background-color: white;">
+                </div>
+
+                <div class="input-group">
+                    <label for="priority">Priority Level</label>
+                    <select id="priority" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; background-color: white;">
+                        <option value="low">Low Priority</option>
+                        <option value="medium">Medium Priority</option>
+                        <option value="high">High Priority</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="task-duration">Task Duration <span style="font-weight: 400; color: #999; font-size: 12px;">(how long will this take?)</span></label>
+                    <select id="task-duration" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; background-color: white;">
+                        <option value="15">15 minutes</option>
+                        <option value="30">30 minutes</option>
+                        <option value="45">45 minutes</option>
+                        <option value="60" selected>1 hour</option>
+                        <option value="90">1.5 hours</option>
+                        <option value="120">2 hours</option>
+                        <option value="180">3 hours</option>
+                        <option value="240">4 hours</option>
+                        <option value="custom">Custom...</option>
+                    </select>
+                    <input type="number" id="custom-duration" placeholder="Enter minutes (e.g. 75)" min="5" max="480" style="display: none; margin-top: 8px; width: 100%; padding: 12px; border: 1px solid #4a90e2; border-radius: 6px; background-color: white; box-sizing: border-box;">
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <button type="submit" class="btn-primary" style="width: 100%;">Save Task</button>
+                    <a href="Home.html" style="display: block; text-align: center; margin-top: 15px; text-decoration: none; color: #888; font-size: 14px;">Cancel</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+     <script src="Task.js"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Master - Profile</title>
+    <link rel="icon" type="image/png" href="taskmaster_logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="Task.css">
+</head>
+<body>
+
+    
+    <input type="checkbox" id="menu-toggle">
+
+    <nav class="navbar">
+    <label for="menu-toggle" class="menu-btn">
+        <i class="fa-solid fa-bars"></i>
+    </label>
+
+    <div class="logo">Task Master</div>
+
+    <ul class="nav-links">
+        <li><a href="Home.html">Back</a></li>
+    </ul>
+</nav>
+
+    
+    <div class="sidebar">
+        <label for="menu-toggle" class="close-btn">&times;</label>
+        <div class="sidebar-header">Task Menu</div>
+        <ul>
+             <li><a href="HOME.html">Dashboard</a></li>
+            <li><a href="profile.html">Your Profile</a></li>
+            <li><a href="create.html">Create New Task</a></li>
+            <li><a href="view.html">View Task</a></li>
+            <li><a href="Login.html" class="logout-link">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="home-container">
+        <div class="welcome-box">
+            <div class="profile-icon" style="font-size: 50px; color: #4a90e2; margin-bottom: 10px;">
+                <i class="fa-solid fa-user"></i>
+            </div>
+
+            <h1 style="color: #4a90e2;">User Profile</h1>
+            <p><strong>Name:</strong> <span id="userNameDisplay" class="username">Guest</span></p>
+            <p><strong>Email:</strong> <span id="userEmailDisplay">Not Set</span></p>
+            <p><strong>Account Status:</strong> Beginner Level</p>
+            
+            <div style="margin-top:20px; display:flex; gap:10px; flex-direction:column; align-items:center;">
+                <button onclick="syncGoogleCalendar()" style="padding: 10px 15px; cursor:pointer; background-color: #4285F4; color: white; border: none; border-radius: 4px; display: flex; align-items: center; gap: 8px; font-weight: bold; width: 220px; justify-content: center;">
+                    <i class="fa-brands fa-google"></i> Sync Google Calendar
+                </button>
+                <button onclick="logout()" style="padding: 8px 15px; cursor:pointer; width: 220px;">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="Task.js"></script>
+</body>
+</html>

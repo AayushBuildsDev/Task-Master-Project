@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Master - Home</title>
+    <meta name="description" content="TaskMaster Dashboard - Your intelligent task management hub with weekly schedule, Google Calendar sync, and productivity analytics.">
+    <link rel="icon" type="image/png" href="taskmaster_logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Task.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-left">
+            <label for="menu-toggle" class="hamburger">&#9776;</label>
+            <div class="logo-text">Task Master</div>
+        </div>
+
+        <div class="nav-right-group" style="display: flex; align-items: center; gap: 10px;">
+            <button class="nav-action-btn" onclick="syncGoogleCalendar()" id="sync-btn" title="Sync with Google Calendar">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/>
+                </svg>
+                <span class="btn-label">Sync</span>
+            </button>
+            <button class="nav-action-btn gcal-btn" onclick="openGoogleCalendar()" id="open-gcal-btn" title="Open Google Calendar">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="3" y="4" width="18" height="18" rx="2" stroke="white" stroke-width="2"/>
+                    <path d="M3 10H21" stroke="white" stroke-width="2"/>
+                    <path d="M8 2V6" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M16 2V6" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    <rect x="7" y="13" width="3" height="3" rx="0.5" fill="white"/>
+                    <rect x="14" y="13" width="3" height="3" rx="0.5" fill="white"/>
+                    <rect x="7" y="17" width="3" height="3" rx="0.5" fill="white"/>
+                </svg>
+                <span class="btn-label">Calendar</span>
+            </button>
+            <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
+                <svg id="theme-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                    </path>
+                </svg>
+            </button>
+            <div class="logo-image"></div>
+        </div>
+    </nav>
+
+    <input type="checkbox" id="menu-toggle" hidden>
+
+    <div class="sidebar">
+        <label for="menu-toggle" class="close-btn">&times;</label>
+        <div class="sidebar-header">Task Menu</div>
+        <ul>
+            <li><a href="profile.html">Your Profile</a></li>
+            <li><a href="create.html">Create New Task</a></li>
+            <li><a href="view.html">View Task</a></li>
+            <li><a href="Login.html" class="logout-link">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="home-container">
+        <div class="welcome-box">
+            <h2 class="user-greeting">Hello, <span class="username" id="display-name">Guest</span>!</h2>
+            <h1>Welcome to Task Master</h1>
+            <p>Your journey to productivity starts here.</p>
+        </div>
+
+        <div class="stats-row top-stats">
+            <div class="stat-box" onclick="showTaskCategory('total')" style="cursor: pointer;" title="Tap to see all tasks">
+                <div class="stat-header"><span>Total Tasks</span>
+                    <div class="icon-box icon-blue"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                        </svg></div>
+                </div>
+                <h2 id="stat-total">0</h2>
+            </div>
+            <div class="stat-box" onclick="showTaskCategory('completed')" style="cursor: pointer;" title="Tap to see completed tasks">
+                <div class="stat-header"><span>Completed</span>
+                    <div class="icon-box icon-green"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7">
+                            </path>
+                        </svg></div>
+                </div>
+                <h2 id="stat-completed">0</h2>
+                <div class="stat-subtext" id="stat-completion-rate">0% completion rate</div>
+            </div>
+            <div class="stat-box" onclick="showTaskCategory('pending')" style="cursor: pointer;" title="Tap to see pending tasks">
+                <div class="stat-header"><span>Pending</span>
+                    <div class="icon-box icon-orange"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg></div>
+                </div>
+                <h2 id="stat-pending">0</h2>
+            </div>
+            <div class="stat-box" onclick="showTaskCategory('overdue')" style="cursor: pointer;" title="Tap to see overdue tasks">
+                <div class="stat-header"><span>Overdue</span>
+                    <div class="icon-box icon-red"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                            </path>
+                        </svg></div>
+                </div>
+                <h2 id="stat-overdue">0</h2>
+            </div>
+        </div>
+
+        <!-- Auto-sync status indicator -->
+        <div id="auto-sync-status" class="auto-sync-banner" style="display: none;">
+            <div class="sync-spinner"></div>
+            <span id="sync-status-text">Syncing with Google Calendar...</span>
+        </div>
+
+        <!-- Quick Task View Panel -->
+        <div id="quick-task-view" class="quick-task-panel">
+            <div class="quick-task-header">
+                <h3 id="quick-view-title" class="quick-task-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                    Task List
+                </h3>
+                <button onclick="document.getElementById('quick-task-view').classList.remove('active')" class="quick-task-close" aria-label="Close">&times;</button>
+            </div>
+            <ul id="quick-pending-ul" class="quick-task-list">
+                <!-- Tasks injected here -->
+            </ul>
+        </div>
+
+        <div class="stats-row bottom-stats">
+            <div class="stat-box large-box">
+                <div class="stat-header"><span><svg class="inline-icon" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                            </path>
+                        </svg> Due Today</span></div>
+                <h2 id="stat-due">0</h2>
+                <div class="stat-subtext">tasks due today</div>
+            </div>
+            <div class="stat-box large-box">
+                <div class="stat-header"><span><svg class="inline-icon" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                        </svg> Weekly Progress</span></div>
+                <h2 id="stat-weekly">0</h2>
+                <div class="stat-subtext">tasks completed this week</div>
+            </div>
+            <div class="stat-box pie-box">
+                <div class="progress-circle">
+                    <svg viewBox="0 0 36 36" class="circular-chart blue">
+                        <path class="circle-bg" d="M18 2.0845
+                          a 15.9155 15.9155 0 0 1 0 31.831
+                          a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        <path class="circle" id="overall-progress-circle" stroke-dasharray="0, 100" d="M18 2.0845
+                          a 15.9155 15.9155 0 0 1 0 31.831
+                          a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    </svg>
+                    <div class="percentage" id="progress-percent">0%<br><span
+                            style="font-size:10px;color:var(--text-muted)">Complete</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="priority-breakdown">
+            <h3><svg class="inline-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path>
+                </svg> Priority Breakdown <span class="sub-text">(pending tasks)</span></h3>
+
+            <div class="priority-bars">
+                <div class="priority-bar-row">
+                    <span class="priority-label">High</span>
+                    <div class="progress-bar-container">
+                        <div class="progress-fill" id="pb-high" style="width: 0%"></div>
+                    </div>
+                    <span class="priority-value" id="val-high">0</span>
+                </div>
+                <div class="priority-bar-row">
+                    <span class="priority-label">Medium</span>
+                    <div class="progress-bar-container">
+                        <div class="progress-fill" id="pb-medium" style="width: 0%"></div>
+                    </div>
+                    <span class="priority-value" id="val-medium">0</span>
+                </div>
+                <div class="priority-bar-row">
+                    <span class="priority-label">Low</span>
+                    <div class="progress-bar-container">
+                        <div class="progress-fill" id="pb-low" style="width: 0%"></div>
+                    </div>
+                    <span class="priority-value" id="val-low">0</span>
+                </div>
+                <div class="priority-bar-row">
+                    <span class="priority-label">None</span>
+                    <div class="progress-bar-container">
+                        <div class="progress-fill" id="pb-none" style="width: 0%"></div>
+                    </div>
+                    <span class="priority-value" id="val-none">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weekly Work Schedule Section -->
+        <div class="schedule-section" id="weekly-schedule">
+            <div class="schedule-header">
+                <div class="schedule-title-group">
+                    <h3 class="schedule-title">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        My Weekly Schedule
+                    </h3>
+                    <span class="schedule-subtitle">What's on your plate this week</span>
+                </div>
+                <div class="schedule-actions">
+                    <button class="schedule-nav-btn" onclick="navigateWeek(-1)" title="Previous Week">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+                    <span class="schedule-week-label" id="schedule-week-label">This Week</span>
+                    <button class="schedule-nav-btn" onclick="navigateWeek(1)" title="Next Week">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="schedule-grid-wrapper">
+                <table class="schedule-table" id="schedule-table">
+                    <thead>
+                        <tr>
+                            <th class="schedule-time-col">Time</th>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                            <th>Saturday</th>
+                            <th>Sunday</th>
+                        </tr>
+                    </thead>
+                    <tbody id="schedule-body">
+                        <!-- Dynamically populated -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="schedule-legend">
+                <span class="legend-item"><span class="legend-dot" style="background: #e74c3c;"></span> High Priority</span>
+                <span class="legend-item"><span class="legend-dot" style="background: #f39c12;"></span> Medium Priority</span>
+                <span class="legend-item"><span class="legend-dot" style="background: #2ecc71;"></span> Low Priority</span>
+                <span class="legend-item"><span class="legend-dot" style="background: #4a90e2;"></span> No Priority</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="Task.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Master - View Tasks</title>
+    <link rel="icon" type="image/png" href="taskmaster_logo.png">
+    <link rel="stylesheet" href="Task.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="logo">Task Master</div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="Home.html">Dashboard</a></li>
+            <li><a href="create.html" style="color: #4a90e2; font-weight: bold;">+ Add New Task</a></li>
+        </ul>
+    </nav>
+
+    <div class="home-container">
+        <div class="welcome-box" style="max-width: 950px; width: 90%;">
+            <h1>My Task List</h1>
+            <p style="margin-bottom: 20px; color: #666;">View and manage your current progress.</p>
+
+            <table class="task-table">
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>Task Name</th>
+                        <th>Category</th>
+                        <th>Due Date</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="task-list-body">
+                    <!-- Tasks will be dynamically injected here -->
+                </tbody>
+            </table>
+
+            <div style="margin-top: 20px; text-align: right;">
+                <button class="btn-primary" id="delete-selected-btn" style="width: auto; padding: 10px 25px;">Delete Selected</button>
+            </div>
+        </div>
+    </div> 
+    <!-- Edit Task Modal -->
+    <div id="editTaskModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5);">
+        <div style="background-color: var(--card-bg, #fff); margin: 10% auto; padding: 20px; border-radius: 8px; width: 90%; max-width: 500px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+            <h2 style="margin-bottom: 20px; color: var(--text-color, #333);">Edit Task</h2>
+            <form id="editTaskForm">
+                <input type="hidden" id="edit-task-id">
+                <div class="input-group" style="margin-bottom: 15px;">
+                    <label for="edit-task-name" style="display: block; margin-bottom: 5px; color: var(--text-color, #333);">Task Name</label>
+                    <input type="text" id="edit-task-name" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; background-color: var(--input-bg, #fff); color: var(--text-color, #333);">
+                </div>
+                <div class="input-group" style="margin-bottom: 15px;">
+                    <label for="edit-task-type" style="display: block; margin-bottom: 5px; color: var(--text-color, #333);">Task Type</label>
+                    <select id="edit-task-type" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; background-color: var(--input-bg, #fff); color: var(--text-color, #333);">
+                        <option value="Work">Work</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Study">Study</option>
+                        <option value="Health">Health/Gym</option>
+                        <option value="Finance">Finance</option>
+                        <option value="other">+ Add Custom...</option>
+                    </select>
+                    <input type="text" id="edit-custom-category" placeholder="Type your custom category" style="display: none; margin-top: 8px; width: 100%; padding: 10px; border: 1px solid #4a90e2; border-radius: 4px; box-sizing: border-box; background-color: var(--input-bg, #fff); color: var(--text-color, #333);">
+                </div>
+                <div class="input-group" style="margin-bottom: 15px;">
+                    <label for="edit-due-date" style="display: block; margin-bottom: 5px; color: var(--text-color, #333);">Due Date</label>
+                    <input type="date" id="edit-due-date" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; background-color: var(--input-bg, #fff); color: var(--text-color, #333);">
+                </div>
+                <div class="input-group" style="margin-bottom: 15px;">
+                    <label for="edit-due-time" style="display: block; margin-bottom: 5px; color: var(--text-color, #333);">Due Time <span style="font-weight: 400; color: #999; font-size: 12px;">(enables reminders)</span></label>
+                    <input type="time" id="edit-due-time" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; background-color: var(--input-bg, #fff); color: var(--text-color, #333);">
+                </div>
+                <div class="input-group" style="margin-bottom: 20px;">
+                    <label for="edit-priority" style="display: block; margin-bottom: 5px; color: var(--text-color, #333);">Priority Level</label>
+                    <select id="edit-priority" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; background-color: var(--input-bg, #fff); color: var(--text-color, #333);">
+                        <option value="low">Low Priority</option>
+                        <option value="medium">Medium Priority</option>
+                        <option value="high">High Priority</option>
+                    </select>
+                </div>
+                <div class="input-group" style="margin-bottom: 20px;">
+                    <label for="edit-duration" style="display: block; margin-bottom: 5px; color: var(--text-color, #333);">Task Duration <span style="font-weight: 400; color: #999; font-size: 12px;">(how long?)</span></label>
+                    <select id="edit-duration" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; background-color: var(--input-bg, #fff); color: var(--text-color, #333);">
+                        <option value="15">15 minutes</option>
+                        <option value="30">30 minutes</option>
+                        <option value="45">45 minutes</option>
+                        <option value="60">1 hour</option>
+                        <option value="90">1.5 hours</option>
+                        <option value="120">2 hours</option>
+                        <option value="180">3 hours</option>
+                        <option value="240">4 hours</option>
+                        <option value="custom">Custom...</option>
+                    </select>
+                    <input type="number" id="edit-custom-duration" placeholder="Enter minutes" min="5" max="480" style="display: none; margin-top: 8px; width: 100%; padding: 10px; border: 1px solid #4a90e2; border-radius: 4px; box-sizing: border-box; background-color: var(--input-bg, #fff); color: var(--text-color, #333);">
+                </div>
+                <div style="text-align: right;">
+                    <button type="button" onclick="closeEditModal()" style="padding: 10px 15px; background: #ccc; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px; color: #333;">Cancel</button>
+                    <button type="submit" class="btn-primary" style="padding: 10px 15px; width: auto;">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+     <script src="Task.js"></script>
+</body>
+</html>
